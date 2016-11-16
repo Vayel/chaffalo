@@ -7,19 +7,19 @@
 
     <node oor:name="AddonUI">
         <node oor:name="OfficeMenuBar">
-            <node oor:name="org.chaffalo" oor:op="replace">
+            <node oor:name="org.javelot" oor:op="replace">
                 <prop oor:name="Title" oor:type="xs:string">
-                    <value>Chaffalo</value>
+                    <value>Javelot</value>
                 </prop>
                 <node oor:name="Submenu">
-                    <node oor:name="hello" oor:op="replace">
+                    <node oor:name="print" oor:op="replace">
                         <prop oor:name="URL" oor:type="xs:string">
-                            <value>service:org.chaffalo.Main?hello</value>
+                            <value>service:org.javelot.Main?print</value>
                         </prop>
                         <prop oor:name="Title" oor:type="xs:string">
                             <value/>
-                            <value xml:lang="fr">Hello</value>
-                            <value xml:lang="en-US">Hello</value>
+                            <value xml:lang="fr">Imprimer</value>
+                            <value xml:lang="en-US">Print</value>
                         </prop>
                         <prop oor:name="Target" oor:type="xs:string">
                             <value>_self</value>
