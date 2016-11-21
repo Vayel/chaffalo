@@ -12,6 +12,23 @@
                     <value>Javelot</value>
                 </prop>
                 <node oor:name="Submenu">
+                    <node oor:name="configure" oor:op="replace">
+                        <prop oor:name="URL" oor:type="xs:string">
+                            <value>service:org.javelot.Main?configure</value>
+                        </prop>
+                        <prop oor:name="Title" oor:type="xs:string">
+                            <value/>
+                            <value xml:lang="fr">Configurer</value>
+                            <value xml:lang="en-US">Configure</value>
+                        </prop>
+                        <prop oor:name="Target" oor:type="xs:string">
+                            <value>_self</value>
+                        </prop>
+                        <prop oor:name="Context" oor:type="xs:string">
+                            <value>com.sun.star.text.TextDocument</value>
+                        </prop>
+                    </node>
+
                     <node oor:name="print" oor:op="replace">
                         <prop oor:name="URL" oor:type="xs:string">
                             <value>service:org.javelot.Main?print</value>
