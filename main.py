@@ -7,6 +7,7 @@ from com.sun.star.task import XJobExecutor
 from com.sun.star.beans import UnknownPropertyException
 
 import config
+import messages
 import tools
 
 
@@ -178,7 +179,11 @@ class Main(unohelper.Base, XJobExecutor):
             else:
                 raise ValueError("Unknown command '{}'".format(cmd))
         except Exception as e:
-            tools.log(str(e))
+            messages.error(
+                model.CurrentController.Frame.ContainerWindow,
+                str(e),
+                "System error"
+            )
 
 
 # pythonloader looks for a static g_ImplementationHelper variable

@@ -4,11 +4,6 @@ import uno
 import config
 
 
-def log(txt):
-    with open(config.LOG_PATH, "a") as f:
-        f.write(txt + "\n")
-
-
 def get_ods_fname(folder):
     return [fname for fname in os.listdir(folder) if fname.endswith(".ods")][0]
 
