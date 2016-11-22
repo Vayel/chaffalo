@@ -80,6 +80,40 @@
                             <value>com.sun.star.text.TextDocument</value>
                         </prop>
                     </node>
+                    
+                    <node oor:name="updateFeatureTable" oor:op="replace">
+                        <prop oor:name="URL" oor:type="xs:string">
+                            <value>service:org.javelot.Main?updateFeatureTable</value>
+                        </prop>
+                        <prop oor:name="Title" oor:type="xs:string">
+                            <value/>
+                            <value xml:lang="fr">Mettre à jour la table des fonctionnalités</value>
+                            <value xml:lang="en-US">Update the feature table</value>
+                        </prop>
+                        <prop oor:name="Target" oor:type="xs:string">
+                            <value>_self</value>
+                        </prop>
+                        <prop oor:name="Context" oor:type="xs:string">
+                            <value>com.sun.star.text.TextDocument</value>
+                        </prop>
+                    </node>
+ 
+                    <node oor:name="updateMethodologyTable" oor:op="replace">
+                        <prop oor:name="URL" oor:type="xs:string">
+                            <value>service:org.javelot.Main?updateMethodologyTable</value>
+                        </prop>
+                        <prop oor:name="Title" oor:type="xs:string">
+                            <value/>
+                            <value xml:lang="fr">Mettre à jour la méthodologie</value>
+                            <value xml:lang="en-US">Update the methodology</value>
+                        </prop>
+                        <prop oor:name="Target" oor:type="xs:string">
+                            <value>_self</value>
+                        </prop>
+                        <prop oor:name="Context" oor:type="xs:string">
+                            <value>com.sun.star.text.TextDocument</value>
+                        </prop>
+                    </node>
                 </node>
             </node>
         </node>

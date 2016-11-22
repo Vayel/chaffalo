@@ -279,7 +279,36 @@ class Main(unohelper.Base, XJobExecutor):
         table.TableColumnSeparators = tuple(seps)
 
         calc.dispose()
+    
+    def update_methodology_table(self, document):
+        folder = tools.get_document_folder(document)
+        calc = self.open_document(os.path.join(folder, tools.get_ods_fname(folder)))
 
+        tools.update_phase_table(
+            document,
+            calc,
+            "TableauMéthodologie",
+            "VieuxTableauMéthodologie",
+            2
+        )
+
+        calc.dispose()
+
+    def update_feature_table(self, document):
+        folder = tools.get_document_folder(document)
+        calc = self.open_document(os.path.join(folder, tools.get_ods_fname(folder)))
+
+        tools.update_phase_table(
+            document,
+            calc,
+            "TableauFonctionnalités",
+            "VieuxTableauFonctionnalités",
+            2,
+            ["Table Contents", "Fonctionnalités"]
+        )
+
+        calc.dispose()
+   
     def trigger(self, cmd):
         model = self.desktop.getCurrentComponent()
 
@@ -292,6 +321,10 @@ class Main(unohelper.Base, XJobExecutor):
                 self.update_gantt(model)
             elif cmd == "updateBudgetTable":
                 self.update_budget_table(model)
+            elif cmd == "updateFeatureTable":
+                self.update_feature_table(model)
+            elif cmd == "updateMethodologyTable":
+                self.update_methodology_table(model)
             else:
                 raise ValueError("Unknown command '{}'".format(cmd))
         except Exception as e:
