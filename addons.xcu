@@ -11,6 +11,7 @@
                 <prop oor:name="Title" oor:type="xs:string">
                     <value>Javelot</value>
                 </prop>
+
                 <node oor:name="Submenu">
                     <node oor:name="configure" oor:op="replace">
                         <prop oor:name="URL" oor:type="xs:string">
@@ -37,6 +38,23 @@
                             <value/>
                             <value xml:lang="fr">Imprimer</value>
                             <value xml:lang="en-US">Print</value>
+                        </prop>
+                        <prop oor:name="Target" oor:type="xs:string">
+                            <value>_self</value>
+                        </prop>
+                        <prop oor:name="Context" oor:type="xs:string">
+                            <value>com.sun.star.text.TextDocument</value>
+                        </prop>
+                    </node>
+                    
+                    <node oor:name="insertGantt" oor:op="replace">
+                        <prop oor:name="URL" oor:type="xs:string">
+                            <value>service:org.javelot.Main?insertGantt</value>
+                        </prop>
+                        <prop oor:name="Title" oor:type="xs:string">
+                            <value/>
+                            <value xml:lang="fr">Insérer le Gantt</value>
+                            <value xml:lang="en-US">Insert the Gantt diagram</value>
                         </prop>
                         <prop oor:name="Target" oor:type="xs:string">
                             <value>_self</value>
