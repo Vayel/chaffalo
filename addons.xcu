@@ -47,14 +47,14 @@
                         </prop>
                     </node>
                     
-                    <node oor:name="insertGantt" oor:op="replace">
+                    <node oor:name="updateGantt" oor:op="replace">
                         <prop oor:name="URL" oor:type="xs:string">
-                            <value>service:org.javelot.Main?insertGantt</value>
+                            <value>service:org.javelot.Main?updateGantt</value>
                         </prop>
                         <prop oor:name="Title" oor:type="xs:string">
                             <value/>
-                            <value xml:lang="fr">Insérer le Gantt</value>
-                            <value xml:lang="en-US">Insert the Gantt diagram</value>
+                            <value xml:lang="fr">Mettre à jour le Gantt</value>
+                            <value xml:lang="en-US">Update the Gantt diagram</value>
                         </prop>
                         <prop oor:name="Target" oor:type="xs:string">
                             <value>_self</value>

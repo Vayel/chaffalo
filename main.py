@@ -168,7 +168,7 @@ class Main(unohelper.Base, XJobExecutor):
 
             odt.dispose()
 
-    def insert_gantt(self, document):
+    def update_gantt(self, document):
         folder = tools.get_document_folder(document)
         calc = self.open_document(os.path.join(folder, tools.get_ods_fname(folder)))
     
@@ -214,8 +214,8 @@ class Main(unohelper.Base, XJobExecutor):
                 self.print_document(model)
             elif cmd == "configure":
                 self.configure_project(model)
-            elif cmd == "insertGantt":
-                self.insert_gantt(model)
+            elif cmd == "updateGantt":
+                self.update_gantt(model)
             else:
                 raise ValueError("Unknown command '{}'".format(cmd))
         except Exception as e:
