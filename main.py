@@ -4,6 +4,7 @@ import uno
 import unohelper
 
 from com.sun.star.task import XJobExecutor
+from com.sun.star.beans import UnknownPropertyException
 
 import config
 import tools
@@ -41,6 +42,20 @@ class Main(unohelper.Base, XJobExecutor):
             0,
             tuple([struct])
         )
+    
+    def update_sections_link(self, document, dst_path):
+        """For each linked section of src, replace the filename by dst_path"""
+
+        sections = document.getTextSections()
+        for i in range(sections.getCount()):
+            section = sections.getByIndex(i)
+
+            if not section.FileLink.FileURL:
+                continue
+
+            section.FileLink.FileURL = uno.systemPathToFileUrl(dst_path)
+
+        document.store()
 
     def print_document(self, document):
         """
@@ -145,23 +160,25 @@ class Main(unohelper.Base, XJobExecutor):
                 break
 
         for tmpl in tools.get_odt_fnames(folder):
-            doc = self.open_document(os.path.join(folder, tmpl))
-            self.link_db(
-                doc,
-                db_name,
-                tmpl[:-4],
-            )
-            doc.dispose()
+            odt = self.open_document(os.path.join(folder, tmpl))
+
+            self.link_db(odt, db_name, tmpl[:-4])
+            self.update_sections_link(odt, os.path.join(folder, config.CONTENT_FNAME))
+
+            odt.dispose()
 
     def trigger(self, cmd):
         model = self.desktop.getCurrentComponent()
 
-        if cmd == "print":
-            self.print_document(model)
-        if cmd == "configure":
-            self.configure_project(model)
-        else:
-            raise ValueError("Unknown command '{}'".format(cmd))
+        try:
+            if cmd == "print":
+                self.print_document(model)
+            if cmd == "configure":
+                self.configure_project(model)
+            else:
+                raise ValueError("Unknown command '{}'".format(cmd))
+        except Exception as e:
+            tools.log(str(e))
 
 
 # pythonloader looks for a static g_ImplementationHelper variable
