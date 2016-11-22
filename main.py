@@ -206,6 +206,77 @@ class Main(unohelper.Base, XJobExecutor):
 
         calc.dispose()
 
+    def update_budget_table(self, document):
+        folder = tools.get_document_folder(document)
+        calc = self.open_document(os.path.join(folder, tools.get_ods_fname(folder)))
+
+        SHEET_NAME = "Phases"
+        LAST_ROW_NUMBER_CELL = "J2"
+        LAST_COLUMN_NAME = "D"
+        SECTION_NAME = "BudgetEtude"
+        TABLE_NAME = "TableauBudgetEtude"
+        COL_SEP_POS_DELTAS = [900, -500, 0]
+
+        # Get data
+        sheet = calc.getSheets().getByName(SHEET_NAME)
+        last_row_number = int(sheet.getCellRangeByName(
+            LAST_ROW_NUMBER_CELL
+        ).getValue())
+        data = sheet.getCellRangeByName("A1:{}{}".format(
+            LAST_COLUMN_NAME,
+            last_row_number
+        ))
+        
+        # Create table
+        if document.getTextTables().hasByName(TABLE_NAME):
+            table = document.getTextTables().getByName(TABLE_NAME)
+            table.setName(TABLE_NAME + "_")
+            table.dispose()
+
+        section = document.getTextSections().getByName(SECTION_NAME)
+        anchor = section.getAnchor()
+
+        table = document.createInstance("com.sun.star.text.TextTable")
+        table.setName(TABLE_NAME)
+        rows = data.getRows()
+        columns = data.getColumns()
+        row_count = rows.getCount()
+        col_count = columns.getCount()
+        table.initialize(row_count, col_count)
+
+        anchor.getText().insertTextContent(anchor, table, False)
+        
+        # Format text
+        for i in range(row_count):
+            for j in range(col_count):
+                val = data.getCellByPosition(j, i).getText().getString()
+                cell = table.getCellByPosition(j, i)
+                cell.setString(val)
+
+                if i >= row_count - 2 and j == 0:
+                    tools.superscript_cell_note(cell)
+
+                if i == 0 or i == row_count - 1 and j == 0:
+                    tools.bold_cell(cell)
+
+                if val == "":
+                    tools.hide_border(cell)
+
+                tools.align_cell_text(cell, row_count, i, j)
+
+        # Resize columns
+        pos = [
+            sep.value.Position + delta
+            for sep, delta in zip(table.TableColumnSeparators, COL_SEP_POS_DELTAS)
+        ]
+        seps = [
+            uno.createUnoStruct("com.sun.star.text.TableColumnSeparator", p, True)
+            for p in pos
+        ]
+        table.TableColumnSeparators = tuple(seps)
+
+        calc.dispose()
+
     def trigger(self, cmd):
         model = self.desktop.getCurrentComponent()
 
@@ -216,6 +287,8 @@ class Main(unohelper.Base, XJobExecutor):
                 self.configure_project(model)
             elif cmd == "updateGantt":
                 self.update_gantt(model)
+            elif cmd == "updateBudgetTable":
+                self.update_budget_table(model)
             else:
                 raise ValueError("Unknown command '{}'".format(cmd))
         except Exception as e:

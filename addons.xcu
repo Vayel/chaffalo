@@ -63,6 +63,23 @@
                             <value>com.sun.star.text.TextDocument</value>
                         </prop>
                     </node>
+                    
+                    <node oor:name="updateBudgetTable" oor:op="replace">
+                        <prop oor:name="URL" oor:type="xs:string">
+                            <value>service:org.javelot.Main?updateBudgetTable</value>
+                        </prop>
+                        <prop oor:name="Title" oor:type="xs:string">
+                            <value/>
+                            <value xml:lang="fr">Mettre à jour la table du budget</value>
+                            <value xml:lang="en-US">Update the budget table</value>
+                        </prop>
+                        <prop oor:name="Target" oor:type="xs:string">
+                            <value>_self</value>
+                        </prop>
+                        <prop oor:name="Context" oor:type="xs:string">
+                            <value>com.sun.star.text.TextDocument</value>
+                        </prop>
+                    </node>
                 </node>
             </node>
         </node>
