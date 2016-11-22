@@ -73,6 +73,9 @@ class Main(unohelper.Base, XJobExecutor):
             config.PDF_DIRNAME
         )
 
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
+
         self.update_indexes(document)
 
         # Fill field from db and export as PDF
