@@ -44,7 +44,7 @@ class Main(unohelper.Base, XJobExecutor):
             tuple([struct])
         )
     
-    def update_sections_link(self, document, dst_path):
+    def update_sections_link(self, document, dst_dir):
         """For each linked section of src, replace the filename by dst_path"""
 
         sections = document.getTextSections()
@@ -54,7 +54,11 @@ class Main(unohelper.Base, XJobExecutor):
             if not section.FileLink.FileURL:
                 continue
 
-            section.FileLink.FileURL = uno.systemPathToFileUrl(dst_path)
+            url = uno.systemPathToFileUrl(os.path.join(
+                dst_dir,
+                os.path.basename(section.FileLink.FileURL)
+            ))
+            section.FileLink.FileURL = url
 
         document.store()
 
@@ -97,7 +101,8 @@ class Main(unohelper.Base, XJobExecutor):
 
         # Rename PDF file
         pdf_path = os.path.join(output_folder, tools.get_document_name(document) + "0.pdf")
-        os.rename(pdf_path, pdf_path.replace("0.pdf", ".pdf"))
+        new_path = pdf_path.replace("0.pdf", ".pdf")
+        os.rename(pdf_path, new_path)
 
     def register_db(self, ods_path, db_path, db_name):
         if os.path.isfile(db_path):
@@ -150,6 +155,7 @@ class Main(unohelper.Base, XJobExecutor):
         db_name_base = db_name = ods[:-4]
         n = 0
 
+        # Look for an unused db name
         while True:
             try:
                 self.register_db(
@@ -164,12 +170,20 @@ class Main(unohelper.Base, XJobExecutor):
                 break
 
         for tmpl in tools.get_odt_fnames(folder):
-            odt = self.open_document(os.path.join(folder, tmpl))
+            already_opened = tools.get_document_fname(document) == tmpl
+            odt = document if already_opened else self.open_document(os.path.join(folder, tmpl))
 
             self.link_db(odt, db_name, tmpl[:-4])
-            self.update_sections_link(odt, os.path.join(folder, config.CONTENT_FNAME))
+            self.update_sections_link(odt, folder)
 
-            odt.dispose()
+            if not already_opened:
+                odt.dispose()
+        
+        messages.message(
+            document.CurrentController.Frame.ContainerWindow,
+            str("Les modèles ont été configurés avec succès."),
+            "Configuration terminée"
+        )
 
     def update_gantt(self, document):
         folder = tools.get_document_folder(document)

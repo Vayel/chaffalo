@@ -20,8 +20,12 @@ def get_document_folder(document):
     return os.path.dirname(get_document_path(document))
 
 
+def get_document_fname(document):
+    return os.path.basename(get_document_path(document))
+
+
 def get_document_name(document):
-    return os.path.splitext(os.path.basename(get_document_path(document)))[0]
+    return os.path.splitext(get_document_fname(document))[0]
 
 
 def bold_cell(cell):
@@ -170,3 +174,14 @@ def update_phase_table(writer_doc, calc_doc, table_name, old_table_name, col_cou
             copy_cell_string(cell, old_cell)
             old_table.getRows().removeByIndex(old_i, 1)
             break
+
+
+def find_insert_position(document, elements, section_name, element_name):
+    if elements.hasByName(element_name):
+        el = elements.getByName(element_name)
+        return el, el.getAnchor()
+
+    if document.getTextSections().hasByName(section_name):
+        return None, document.getTextSections().getByName(section_name).getAnchor()
+
+    return None, TODO
