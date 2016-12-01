@@ -104,6 +104,8 @@ class Main(unohelper.Base, XJobExecutor):
         new_path = pdf_path.replace("0.pdf", ".pdf")
         os.rename(pdf_path, new_path)
 
+        self.open_document(new_path, hidden=False)
+
     def register_db(self, ods_path, db_path, db_name):
         if os.path.isfile(db_path):
             return
