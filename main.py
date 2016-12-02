@@ -32,16 +32,20 @@ class Main(unohelper.Base, XJobExecutor):
         self.dispatcher.executeDispatch(document.getCurrentController(),
                                         ".uno:UpdateAll", "", 0, ())
 
-    def open_document(self, path, hidden=True):
-        struct = uno.createUnoStruct("com.sun.star.beans.PropertyValue")
-        struct.Name = "Hidden"
-        struct.Value = hidden
+    def open_document(self, path, hidden=True, read_only=False):
+        struct_hidden = uno.createUnoStruct("com.sun.star.beans.PropertyValue")
+        struct_hidden.Name = "Hidden"
+        struct_hidden.Value = hidden
+
+        struct_read_only = uno.createUnoStruct("com.sun.star.beans.PropertyValue")
+        struct_read_only.Name = "ReadOnly"
+        struct_read_only.Value = read_only
 
         return self.desktop.loadComponentFromURL(
             uno.systemPathToFileUrl(path),
             "_blank",
             0,
-            tuple([struct])
+            tuple([struct_hidden, struct_read_only])
         )
     
     def update_sections_link(self, document, dst_dir):
@@ -104,7 +108,7 @@ class Main(unohelper.Base, XJobExecutor):
         new_path = pdf_path.replace("0.pdf", ".pdf")
         os.rename(pdf_path, new_path)
 
-        self.open_document(new_path, hidden=False)
+        self.open_document(new_path, hidden=False, read_only=True)
 
     def register_db(self, ods_path, db_path, db_name):
         if os.path.isfile(db_path):
