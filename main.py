@@ -106,7 +106,12 @@ class Main(unohelper.Base, XJobExecutor):
         # Rename PDF file
         pdf_path = os.path.join(output_folder, tools.get_document_name(document) + "0.pdf")
         new_path = pdf_path.replace("0.pdf", ".pdf")
-        os.rename(pdf_path, new_path)
+
+        try:
+            os.rename(pdf_path, new_path)
+        except OSError: # (Windows) The file already exists
+            os.remove(new_path)
+            os.rename(pdf_path, new_path)
 
         self.open_document(new_path, hidden=False, read_only=True)
 
