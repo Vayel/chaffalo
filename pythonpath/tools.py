@@ -4,6 +4,11 @@ import uno
 import config
 
 
+def log(txt):
+    with open("debug.txt", "a") as f:
+        f.write(str(txt) + "\n\n")
+
+
 def get_ods_fname(folder):
     return [fname for fname in os.listdir(folder) if fname.endswith(".ods")][0]
 
@@ -175,13 +180,9 @@ def update_phase_table(writer_doc, calc_doc, table_name, old_table_name, col_cou
             old_table.getRows().removeByIndex(old_i, 1)
             break
 
-
-def find_insert_position(document, elements, section_name, element_name):
-    if elements.hasByName(element_name):
-        el = elements.getByName(element_name)
-        return el, el.getAnchor()
-
-    if document.getTextSections().hasByName(section_name):
-        return None, document.getTextSections().getByName(section_name).getAnchor()
-
-    return None, TODO
+def RGB(nRed, nGreen, nBlue):
+    """Return an integer which repsents a color.
+       The color is specified in RGB notation.
+       Each of nRed, nGreen and nBlue must be a number from 0 to 255.
+    """
+    return (int( nRed ) & 255) << 16 | (int( nGreen ) & 255) << 8 | (int( nBlue ) & 255)

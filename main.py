@@ -7,6 +7,7 @@ from com.sun.star.task import XJobExecutor
 from com.sun.star.beans import UnknownPropertyException
 
 import config
+import gantt
 import messages
 import tools
 
@@ -199,41 +200,24 @@ class Main(unohelper.Base, XJobExecutor):
     def update_gantt(self, document):
         folder = tools.get_document_folder(document)
         calc = self.open_document(os.path.join(folder, tools.get_ods_fname(folder)))
-    
-        LAST_ROW_NUMBER_CELL = "K2"
-        TIME_UNIT_CELL = "Q2"
-        DURATION_CELL = "O2"
-        CHART_NAME = "Gantt"
-        TIME_STEP = 1
-
-        sheet = calc.getSheets().getByName("PC")
-        time_axis_max = int(sheet.getCellRangeByName(
-            DURATION_CELL
-        ).getValue())
-        time_axis_unit = sheet.getCellRangeByName(
-            TIME_UNIT_CELL
-        ).getString()
-        time_axis_title = "Durée ({})".format(time_axis_unit)
-
-        sheet = calc.getSheets().getByName("Phases")
-        last_row_number = int(sheet.getCellRangeByName(
-            LAST_ROW_NUMBER_CELL
-        ).getValue())
-        durations_range = sheet.getCellRangeByName("E2:F{}".format(last_row_number))
-        names_range = sheet.getCellRangeByName("A2:A{}".format(last_row_number))
-
-        data = durations_range.getDataArray()
-        descriptions = tuple([t[0] for t in names_range.getDataArray()])
-
-        chart = document.getEmbeddedObjects().getByName(CHART_NAME).getEmbeddedObject()
-        chart.getDiagram().getYAxis().setPropertyValue("Max", time_axis_max)
-        chart.getDiagram().getYAxis().setPropertyValue("StepMain", TIME_STEP)
-        chart.getData().setData(data)
-        chart.getData().setRowDescriptions(descriptions)
-        chart.getDiagram().getYAxis().AxisTitle.String = time_axis_title
-
-        calc.dispose()
-
+        
+        try:
+            gantt.update(document, calc) 
+        except Exception as e: # TODO
+            messages.error(
+                document.CurrentController.Frame.ContainerWindow,
+                str(e),
+                "Erreur Gantt"
+            )
+        else:
+            messages.message(
+                document.CurrentController.Frame.ContainerWindow,
+                str("Le Gantt a été mis à jour avec succès."),
+                "Mise à jour du Gantt terminée"
+            )
+        finally:
+            calc.dispose()
+            
     def update_budget_table(self, document):
         folder = tools.get_document_folder(document)
         calc = self.open_document(os.path.join(folder, tools.get_ods_fname(folder)))

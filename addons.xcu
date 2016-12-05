@@ -54,7 +54,7 @@
                         <prop oor:name="Title" oor:type="xs:string">
                             <value/>
                             <value xml:lang="fr">Mettre à jour le Gantt</value>
-                            <value xml:lang="en-US">Update the Gantt diagram</value>
+                            <value xml:lang="en-US">Update the Gantt</value>
                         </prop>
                         <prop oor:name="Target" oor:type="xs:string">
                             <value>_self</value>
@@ -64,6 +64,7 @@
                         </prop>
                     </node>
                     
+                    <!--
                     <node oor:name="updateBudgetTable" oor:op="replace">
                         <prop oor:name="URL" oor:type="xs:string">
                             <value>service:org.javelot.Main?updateBudgetTable</value>
@@ -114,6 +115,7 @@
                             <value>com.sun.star.text.TextDocument</value>
                         </prop>
                     </node>
+                    -->
                 </node>
             </node>
         </node>
