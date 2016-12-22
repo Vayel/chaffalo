@@ -15,10 +15,29 @@ See the `docs` folder of this repository for details about the code. The extensi
 uses the [UNO API](https://wiki.openoffice.org/wiki/Documentation/DevGuide/OpenOffice.org_Developers_Guide).
 
 The odt documents are in a common folder and share variables (dates, names, etc.)
-through an ods document. The extension links all the odt documents to the database. 
-Then, it reads some data from the second and inserts them in a special way in the
-text documents.
+through an ods document. The extension performs two kinds of operations.
 
-The data are named by [named cells](https://help.libreoffice.org/Calc/Naming_Cells).
+### Document management
+
+The extension automates some operations to manage the document itself. For instance:
+
+* Linking the database
+* Printing the document to the pdf format
+
+### Document edition
+
+The extension reads some data from the database (for instance, the budget table)
+and inserts it in the opened document. 
+
+Data is named by [named cells](https://help.libreoffice.org/Calc/Naming_Cells).
 Thus, you do not need to dive into the code to change some data range. See the
-`docs` folder for détails about that.
+`docs` folder for details about that.
+
+The object (table, chart, text...) is inserted that way:
+
+* If it already exists, the old one is replaced
+* If it does not exist but there is a section to contain it, it is inserted in the section
+* If it does not exist and there is no section for it, it is inserted at the cursor position
+
+The names of the sections where data must be inserted are defined in the `Config` table
+of the database.
