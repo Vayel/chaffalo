@@ -25,6 +25,13 @@ def get_document_folder(document):
     return os.path.dirname(get_document_path(document))
 
 
+def has_database(document):
+    for fname in os.listdir(get_document_folder(document)):
+        if fname.endswith(".odb"):
+            return True
+    return False
+
+
 def get_document_fname(document):
     return os.path.basename(get_document_path(document))
 

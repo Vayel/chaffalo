@@ -68,6 +68,14 @@ class Main(unohelper.Base, XJobExecutor):
         document.store()
 
     def print_document(self, document):
+        if not tools.has_database(document):
+            messages.error(
+                document.CurrentController.Frame.ContainerWindow,
+                str("Merci de configurer l'étude avant d'imprimer des documents."),
+                "Etude non configurée"
+            )
+            return
+
         """
         if path.endswith("PC.odt"):
             self.insert_project_manager_data(document)
@@ -198,6 +206,14 @@ class Main(unohelper.Base, XJobExecutor):
         )
 
     def update_gantt(self, document):
+        if not tools.has_database(document):
+            messages.error(
+                document.CurrentController.Frame.ContainerWindow,
+                str("Merci de configurer l'étude avant d'imprimer des documents."),
+                "Etude non configurée"
+            )
+            return
+
         folder = tools.get_document_folder(document)
         calc = self.open_document(os.path.join(folder, tools.get_ods_fname(folder)))
         
