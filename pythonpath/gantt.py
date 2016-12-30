@@ -4,17 +4,18 @@ import config
 import tools
 
 
-CONFIG_SHEET_NAME = "Gantt"
-DATA_SHEET_NAME_CELL = "data_sheet"
-CHART_NAME_CELL = "chart_name"
-SECTION_NAME_CELL = "section_name"
-TIME_UNIT_CELL = "time_unit"
-TIME_STEP_CELL = "time_step"
-LABEL_LEGEND_CELL = "label_legend"
+# In the config sheet
+DATA_SHEET_NAME_CELL = "gantt_data_sheet"
+CHART_NAME_CELL = "gantt_chart_name"
+SECTION_NAME_CELL = "gantt_section_name"
+TIME_STEP_CELL = "gantt_time_step"
+LABEL_LEGEND_CELL = "gantt_label_legend"
 
-LABEL_RANGE = "labels"
-VALUE_RANGE = "values"
-LENGTH_RANGE = "lengths"
+# In the data sheet
+TIME_UNIT_CELL = "gantt_time_unit"
+LABEL_RANGE = "gantt_labels"
+BEGINNING_RANGE = "gantt_beginnings"
+LENGTH_RANGE = "gantt_lengths"
 
 
 def get_anchor(document, config_sheet):
@@ -28,7 +29,7 @@ def get_anchor(document, config_sheet):
 
 
 def get_data(sheet):
-    values = (x[0] for x in sheet.getCellRangeByName(VALUE_RANGE).getDataArray())
+    values = (x[0] for x in sheet.getCellRangeByName(BEGINNING_RANGE).getDataArray())
     lengths = (x[0] for x in sheet.getCellRangeByName(LENGTH_RANGE).getDataArray())
 
     return tuple(zip(values, lengths))
@@ -86,7 +87,7 @@ def get_chart(document, sheet):
 
 
 def update(document, calc):
-    config_sheet = calc.getSheets().getByName(CONFIG_SHEET_NAME)
+    config_sheet = calc.getSheets().getByName(config.CONFIG_SHEET)
     data_sheet_name = config_sheet.getCellRangeByName(DATA_SHEET_NAME_CELL).getString()
     data_sheet = calc.getSheets().getByName(data_sheet_name)
 
@@ -94,7 +95,7 @@ def update(document, calc):
     labels = get_labels(data_sheet)
 
     time_axis_max = data[-1][1]
-    time_axis_title = "Durée ({})".format(get_time_axis_unit(config_sheet))
+    time_axis_title = "Durée ({})".format(get_time_axis_unit(data_sheet))
     
     chart = get_chart(document, config_sheet)
 

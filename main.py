@@ -71,7 +71,7 @@ class Main(unohelper.Base, XJobExecutor):
         if not tools.has_database(document):
             messages.error(
                 document.CurrentController.Frame.ContainerWindow,
-                str("Merci de configurer l'étude avant d'imprimer des documents."),
+                str("Merci de configurer l'étude."),
                 "Etude non configurée"
             )
             return
@@ -209,7 +209,7 @@ class Main(unohelper.Base, XJobExecutor):
         if not tools.has_database(document):
             messages.error(
                 document.CurrentController.Frame.ContainerWindow,
-                str("Merci de configurer l'étude avant d'imprimer des documents."),
+                str("Merci de configurer l'étude."),
                 "Etude non configurée"
             )
             return
