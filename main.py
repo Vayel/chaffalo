@@ -94,6 +94,7 @@ class Main(unohelper.Base, XJobExecutor):
             os.makedirs(output_folder)
 
         self.update_indexes(document)
+        document.store() # For the index update to be taken into account
 
         # Fill field from db and export as PDF
         mail_merge = self.smgr.createInstanceWithContext(
@@ -109,8 +110,6 @@ class Main(unohelper.Base, XJobExecutor):
         mail_merge.SaveFilter = "writer_pdf_Export"
         mail_merge.SaveFilterData = tuple([])
         mail_merge.execute(())
-
-        document.store()
 
         # Rename PDF file
         pdf_path = os.path.join(output_folder, tools.get_document_name(document) + "0.pdf")
