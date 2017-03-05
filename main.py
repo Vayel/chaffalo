@@ -149,8 +149,20 @@ class Main(unohelper.Base, XJobExecutor):
         fields_enum = document.getTextFields().createEnumeration()
 
         while fields_enum.hasMoreElements():
-            master_field = fields_enum.nextElement().getTextFieldMaster()
+            field = fields_enum.nextElement()
+            master_field = field.getTextFieldMaster()
 
+            # Conditional field
+            try:
+                cond = field.getPropertyValue("Condition")
+                cond = cond.split('.')
+                if len(cond) == 3:  # db.table.field
+                    cond[0] = db_name
+                    field.setPropertyValue("Condition", '.'.join(cond))
+            except UnknownPropertyException:
+                pass
+
+            # Merge mail field
             try:
                 master_field.setPropertyValue("DataBaseName", db_name)
                 master_field.setPropertyValue("DataTableName", table_name)

@@ -47,6 +47,7 @@
                         </prop>
                     </node>
                     
+                    <!--
                     <node oor:name="updateGantt" oor:op="replace">
                         <prop oor:name="URL" oor:type="xs:string">
                             <value>service:org.javelot.Main?updateGantt</value>
@@ -64,7 +65,6 @@
                         </prop>
                     </node>
                     
-                    <!--
                     <node oor:name="updateBudgetTable" oor:op="replace">
                         <prop oor:name="URL" oor:type="xs:string">
                             <value>service:org.javelot.Main?updateBudgetTable</value>
