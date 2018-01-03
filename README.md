@@ -12,7 +12,7 @@ helping [Nsigma](http://nsigma.fr/) project managers to write administrative doc
 ## How it works
 
 See the `docs` folder of this repository for details about the code. The extension is written in Python and
-uses the [UNO API](https://wiki.openoffice.org/wiki/Documentation/DevGuide/OpenOffice.org_Developers_Guide).
+uses the [UNO API](https://forum.openoffice.org/fr/forum/viewtopic.php?f=37&t=53131).
 
 The odt documents are in a common folder and share variables (dates, names, etc.)
 through an ods document. The extension performs two kinds of operations.
